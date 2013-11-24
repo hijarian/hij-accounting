@@ -71,7 +71,8 @@ class SpendingController
 //		var_dump($expenses);
 
 		$f3->set('expenses', $expenses);
-		$f3->set('pageLength', ExpensesQuery::PAGE_LENGTH);
+		$f3->set('pageLength', min(count($expenses), ExpensesQuery::PAGE_LENGTH));
+		$f3->set('itemsCount', $count);
 
 		$pagination = $this->makePagination($urlParams, $count);
 

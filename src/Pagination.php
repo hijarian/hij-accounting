@@ -2,7 +2,8 @@
 use pagination\DisabledPaginationElement;
 use pagination\PaginationElement;
 
-/** hijarian 24.11.13 22:33 */
+/** hijarian 24.11.13 22:33
+ */
 
 class Pagination
 {
@@ -14,6 +15,9 @@ class Pagination
 
 	/** @var int How many pages to show before and after current */
 	public $spread = 2;
+
+	/** @var bool Whether to always show the left/right and last/first arrows */
+	public $alwaysShowArrows = true;
 
 	public function __construct($urlParams, $pageLength, $elementsCount)
 	{
@@ -58,7 +62,7 @@ class Pagination
 			for ($i = 1; $i <= $this->pagesCount; ++$i)
 			{
 				$scheme[] = ($this->currentPage == $i)
-					? $this->makeDisabledPageElement($i)
+					? $this->makeCurrentPageElement($i)
 					: $this->makeUsualPageElement($i);
 			}
 		}
@@ -83,7 +87,7 @@ class Pagination
 			for ($i = $firstPageToShow; $i <= $lastPageToShow; ++$i)
 			{
 				$scheme[] = ($this->currentPage == $i)
-					? $this->makeDisabledPageElement($i)
+					? $this->makeCurrentPageElement($i)
 					: $this->makeUsualPageElement($i);
 			}
 
@@ -108,18 +112,20 @@ class Pagination
 		return $this->currentPage > $this->pagesCount or $this->currentPage < 1;
 	}
 
+	private function pagesNumberNotGreaterThanShouldBeShown()
+	{
+		$shouldBeShown = $this->spread * 2 + 1;
+		return $this->pagesCount <= $shouldBeShown;
+	}
+
 	/**
 	 * @return PaginationElement
 	 */
 	private function makeRewindElement()
 	{
-		return new PaginationElement($this->urlParams, 1, '<<');
-	}
-
-	private function pagesNumberNotGreaterThanShouldBeShown()
-	{
-		$shouldBeShown = $this->spread * 2 + 1;
-		return $this->pagesCount <= $shouldBeShown;
+		$element = new PaginationElement($this->urlParams, 1, '<<');
+		$element->classes = ['arrow'];
+		return $element;
 	}
 
 	/**
@@ -137,21 +143,40 @@ class Pagination
 	 */
 	private function makeDisabledPageElement($i)
 	{
-		return new DisabledPaginationElement($i);
+		$element = new DisabledPaginationElement($i);
+		$element->classes[] = 'unavailable';
+		return $element;
+	}
+
+	/**
+	 * @param $i
+	 * @return PaginationElement
+	 */
+	private function makeCurrentPageElement($i)
+	{
+		$element = new DisabledPaginationElement($i);
+		$element->classes[] = 'current';
+		return $element;
 	}
 
 	private function makePreviousPageElement()
 	{
-		return new PaginationElement($this->urlParams, $this->currentPage - 1, '<');
+		$element = new PaginationElement($this->urlParams, $this->currentPage - 1, '<');
+		$element->classes[] = 'arrow';
+		return $element;
 	}
 
 	private function makeNextPageElement()
 	{
-		return new PaginationElement($this->urlParams, $this->currentPage + 1, '>');
+		$element = new PaginationElement($this->urlParams, $this->currentPage + 1, '>');
+		$element->classes[] = 'arrow';
+		return $element;
 	}
 
 	private function makeForwardElement()
 	{
-		return new PaginationElement($this->urlParams, $this->pagesCount, '>>');
+		$element = new PaginationElement($this->urlParams, $this->pagesCount, '>>');
+		$element->classes[] = 'arrow';
+		return $element;
 	}
 }

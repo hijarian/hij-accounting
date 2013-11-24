@@ -18,7 +18,7 @@ class DisabledPaginationElement
 	{
 		$classes = $this->makeClasses();
 		$sign = $this->sign;
-		return sprintf('<span%s>%s</span>', $classes, $sign);
+		return sprintf('<li%s><a>%s</a></span>', $classes, $sign); // no href - browser will render link unclickable
 	}
 
 	public function __toString()
@@ -30,6 +30,6 @@ class DisabledPaginationElement
 	{
 		return empty($this->classes)
 			? ''
-			: sprintf('class="%s"', implode(' ', $this->classes));
+			: sprintf(' class="%s"', implode(' ', $this->classes));
 	}
 }

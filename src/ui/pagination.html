@@ -1,3 +1,6 @@
+<ul class="pagination right">
 <repeat group="{{ @pagination }}" value="{{ @element }}">
     {{ @element }}
 </repeat>
+</ul>
+<em>{{ @pageLength }} {{ @pageLength < 2 ? 'запись' : (@pageLength < 5 ? 'записи' : 'записей') }} из {{ @itemsCount }}</em>

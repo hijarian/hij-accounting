@@ -40,7 +40,7 @@ class PaginationElement
 		$href = $this->makeHref();
 		$class = $this->makeClass();
 		$sign = $this->sign;
-		return sprintf('<a href="%s"%s>%s</a>', $href, $class, $sign);
+		return sprintf('<li%s><a href="%s">%s</a></li>', $class, $href, $sign);
 	}
 
 	public function __toString()
@@ -52,7 +52,7 @@ class PaginationElement
 	{
 		return empty($this->classes)
 			? ''
-			: sprintf('class="%s"', implode(' ', $this->classes));
+			: sprintf(' class="%s"', implode(' ', $this->classes));
 	}
 
 	private function makeHref()
