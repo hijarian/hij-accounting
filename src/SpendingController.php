@@ -62,11 +62,20 @@ class SpendingController
 		$units = new MeasureUnitStorage($db);
 		$f3->set('units', $units->getList());
 
+		$urlParams = $f3->get('GET');
+
 		$expenses_storage = new ExpensesStorage($db);
-		$expenses = $expenses_storage->query($f3->get('GET'));
+		list($count, $expenses) = $expenses_storage->query($urlParams);
+
+//		var_dump($count);
+//		var_dump($expenses);
 
 		$f3->set('expenses', $expenses);
 		$f3->set('pageLength', ExpensesQuery::PAGE_LENGTH);
+
+		$pagination = $this->makePagination($urlParams, $count);
+
+		$f3->set('pagination', $pagination);
 
 		$this->render();
 	}
@@ -192,5 +201,23 @@ class SpendingController
 		or $item['amount'] !== ''
 		or $item['price'] !== ''
 		or $item['tags'] !== '';
+	}
+
+	/**
+	 * @param $urlParams
+	 * @param $count
+	 * @return array
+	 */
+	private function makePagination($urlParams, $count)
+	{
+		$pagination = new Pagination($urlParams, ExpensesQuery::PAGE_LENGTH, $count);
+
+		$page = @$urlParams['page'];
+		if (!$page)
+			$page = 1;
+
+		$pagination->currentPage = $page;
+
+		return $pagination->getScheme();
 	}
 }

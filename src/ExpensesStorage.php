@@ -63,19 +63,33 @@ class ExpensesStorage
 	public function getList($queryData)
 	{
 		$query = $this->makeQuery($queryData);
-		list($statement, $params) = $query->getSQL();
+		list($sql, $countSql, $params) = $query->getSQL();
 
-		$finder = $this->db->prepare($statement);
+//		var_dump($sql);
+//		var_dump($countSql);
+//		var_dump($params);
+
+		$finder = $this->db->prepare($sql);
 		if (!$finder)
 			throw new StorageOperationException("Не удалось подготовить запрос на выборку", $this->db->errorInfo());
 
 		$found = $finder->execute($params);
-
 		if ($found === false)
 			throw new StorageOperationException('Не удалось выполнить команду выборки трат из БД!', $finder->errorInfo());
 
 		$result = $finder->fetchAll(PDO::FETCH_ASSOC);
-		return $result;
+
+		$counter = $this->db->prepare($countSql);
+		if (!$counter)
+			throw new StorageOperationException('Не удалось подготовить запрос на подсчёт', $this->db->errorInfo());
+
+		$counted = $counter->execute($params);
+		if ($counted === false)
+			throw new StorageOperationException('Не удалось выполнить команду подсчёта трат из БД!', $counter->errorInfo());
+
+		$count = $counter->fetchAll(PDO::FETCH_ASSOC)[0]['results_number'];
+
+		return [$count, $result];
 	}
 
 	/**
@@ -84,10 +98,11 @@ class ExpensesStorage
 	 */
 	public function query($query)
 	{
-		return array_map(
-			[$this, 'makeExpense'],
-			$this->getList($query)
-		);
+		list($count, $data) = $this->getList($query);
+
+		$expenses = array_map([$this, 'makeExpense'], $data);
+
+		return [$count, $expenses];
 	}
 
 	/**

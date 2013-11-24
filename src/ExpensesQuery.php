@@ -6,7 +6,9 @@ use datatypes\Tags;
 
 class ExpensesQuery
 {
-	private $select = 'select count(spending.id) as results_number, spending.id as id, date, places.id as place_id, places.name as place_name, spending.name as name, amount, units.id as unit_id, units.name as unit_name, price, discount, tags';
+	private $select = 'select spending.id as id, date, places.id as place_id, places.name as place_name, spending.name as name, amount, units.id as unit_id, units.name as unit_name, price, discount, tags';
+
+	private $count = 'select count(spending.id) as results_number';
 
 	private $from = 'from spending left join places on places.id = place join units on units.id = unit';
 
@@ -85,9 +87,15 @@ class ExpensesQuery
 	{
 		list($conditions, $params) = $this->makeConditions();
 
-		$sql = sprintf("%s %s", $this->select, $this->from);
-		if (count($conditions))
-			$sql .= sprintf(' where %s', implode(' AND ', $conditions));
+		$where = count($conditions)
+			? sprintf(' where %s', implode(' AND ', $conditions))
+			: '';
+
+		// Full SQL to get the data
+		$sql = sprintf("%s %s%s", $this->select, $this->from, $where);
+
+		// Separate query just to count total number of results. If we stuff this part in main query it'll become aggregate one, collapsing to single row.
+		$counter = sprintf("%s %s%s", $this->count, $this->from, $where);
 
 		$sort = $this->makeSort();
 		if ($sort)
@@ -97,7 +105,7 @@ class ExpensesQuery
 		list($offset, $limit) = $this->makeOffsetAndLimit();
 		$sql .= sprintf(' limit %d offset %d', $limit, $offset);
 
-		return [$sql, $params];
+		return [$sql, $counter, $params];
 	}
 
 	private function toSqliteDateLiteral($input)
