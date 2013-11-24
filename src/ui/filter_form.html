@@ -1,0 +1,56 @@
+<form action="/spending#filter" method="get">
+    <div class="row">
+        <div class="columns small-2">
+            <label for="filter-by-tags" class="inline">Теги:</label>
+        </div>
+        <div class="columns small-4">
+            <input type="text" name="tags" id="filter-by-tags" value="{{ @@GET['tags'] }}"/>
+        </div>
+        <div class="columns small-1">
+            <label for="filter-by-left-date" class="inline">Позднее:</label>
+        </div>
+        <div class="columns small-2">
+            <input type="text" name="after" id="filter-by-left-date" value="{{ @@GET['after'] }}"/>
+        </div>
+        <div class="columns small-1">
+            <label for="filter-by-right-date" class="inline">Раньше:</label>
+        </div>
+        <div class="columns small-2">
+            <input type="text" name="before" id="filter-by-right-date" value="{{ @@@GET['before'] }}"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns small-2">
+            <label for="filter-by-place" class="inline">Где куплено:</label>
+        </div>
+        <div class="columns small-4">
+            <input type="text" name="where" id="filter-by-place" value="{{ @@GET['where'] }}" />
+        </div>
+        <div class="columns small-1">
+            <label for="filter-by-min-price" class="inline">Дороже:</label>
+        </div>
+        <div class="columns small-2">
+            <input type="text" name="minPrice" id="filter-by-min-price" value="{{ @@GET['minPrice'] }}"/>
+        </div>
+        <div class="columns small-1">
+            <label for="filter-by-max-price" class="inline">Дешевле:</label>
+        </div>
+        <div class="columns small-2">
+            <input type="text" name="maxPrice" id="filter-by-max-price" value="{{ @@GET['maxPrice'] }}"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns small-2">
+            <label for="filter-by-name" class="inline">Что:</label>
+        </div>
+        <div class="columns small-8">
+            <input type="text" name="name" id="filter-by-name" value="{{ @@GET['name'] }}"/>
+        </div>
+        <div class="columns small-2">
+            <button type="submit" class="button small radius" title="Отобрать записи, соответствующие всем требованиям фильтра одновременно">Фильтровать</button>
+        </div>
+    </div>
+
+</form>

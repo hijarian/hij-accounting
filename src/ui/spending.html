@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="column small-12">
+        <dl class="tabs" data-tab>
+            <dd class="active"><a href="#newcheck">Новый чек</a></dd>
+            <dd><a href="#filter">Фильтр</a></dd>
+        </dl>
+
+        <div class="tabs-content">
+
+            <div class="content active" id="newcheck">
+                <include href="src/ui/newcheck_form.html"/>
+            </div>
+
+            <div class="content" id="filter">
+                <include href="src/ui/filter_form.html"/>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="column small-12">
+        <include href="src/ui/spending_list.html"/>
+    </div>
+</div>

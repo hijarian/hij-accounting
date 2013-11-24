@@ -1,0 +1,89 @@
+<form action="/add" method="post" id="add-check-form">
+
+    <!-- Когда Где Сохранить BEGIN -->
+    <div class="row">
+        <div class="small-1 columns text-right">
+            <label for="check-date" class="inline">Когда</label>
+        </div>
+        <div class="small-2 columns">
+            <input type="text" name="Check[date]" id="check-date" placeholder="Нажмите сюда и выберите дату" class="datepicker" />
+        </div>
+
+        <div class="small-1 columns text-right">
+            <label for="check-place" class="inline">Где</label>
+        </div>
+
+        <div class="small-4 columns">
+            <input type="text" name="Check[place]" id="check-place" placeholder="Название места покупки"/>
+        </div>
+
+        <div class="small-4 columns">
+            <button type="submit" id="add-check-button" class="button small radius">Сохранить</button>
+        </div>
+    </div>
+    <!-- Когда Где Сохранить END -->
+
+    <!-- Траты BEGIN -->
+    <div class="row">
+        <div class="large-12 columns">
+            <table>
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Количество</th>
+                    <th>Ед. изм.</th>
+                    <th>Цена</th>
+                    <th>Скидка</th>
+                    <th>Стоимость</th>
+                    <th>Теги</th>
+                </tr>
+                </thead>
+
+                <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td>
+                        <strong>Итого:</strong>
+                    </td>
+                    <td class="total">
+                        <span class="total-value"></span>
+                    </td>
+                </tr>
+                </tfoot>
+
+                <tbody>
+                <tr>
+                    <td class="name-input-cell">
+                        <input type="text" class="name-input" name="Check[expenses][][name]"/>
+                    </td>
+                    <td class="amount-input-cell">
+                        <input type="text" class="amount-input" name="Check[expenses][][amount]"/>
+                    </td>
+                    <td class="unit-input-cell">
+                        <select name="Check[expenses][][unit]">
+                            <repeat group="{{ @units }}" value="{{ @measure_unit }}">
+                                <option value="{{ @measure_unit['id'] }}">{{ @measure_unit['name'] }}</option>
+                            </repeat>
+                        </select>
+                    </td>
+                    <td class="price-input-cell">
+                        <input type="text" class="price-input" name="Check[expenses][][price]"/>
+                    </td>
+                    <td class="discount-input-cell">
+                        <input type="text" class="discount-input" name="Check[expenses][][discount]"/>
+                    </td>
+                    <td class="cost-display-cell">
+                        <span class="cost"></span>
+                    </td>
+                    <td class="tags-input-cell">
+                        <input type="text" class="tagselect tags-input" name="Check[expenses][][tags]"/>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Траты END -->
+
+</form>

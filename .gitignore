@@ -1,0 +1,8 @@
+/tmp
+/logs
+
+# phpStorm stuff
+.idea
+
+# Create SQLite3 db yourself
+/src/spending.db

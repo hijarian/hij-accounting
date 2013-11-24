@@ -1,0 +1,46 @@
+<check if="{{ count(@expenses) }}">
+    <true>
+        <em>{{ @pageLength }} записей на странице</em>
+        <include href="src/ui/pagination.html" />
+<table class="spendings-list-table">
+    <thead>
+    <tr>
+        <th class="date-cell">Когда</th>
+        <th class="place-cell">Где</th>
+        <th class="name-cell">Что</th>
+        <th class="price-cell">Почём</th>
+        <th class="amount-cell">Сколько</th>
+        <th class="cost-cell">Итого</th>
+        <th class="tags-cell">Теги</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <repeat group="{{ @expenses }}" value="{{ @expense }}">
+
+        <tr>
+            <td class="date-cell">{{ @expense->date->format('Y-m-d') }}</td>
+            <td class="place-cell">{{ @expense->place->name }}</td>
+            <td class="name-cell">{{ @expense->name }}</td>
+            <td class="price-cell">
+                {{ @expense->price }}
+                <check if="{{ @expense->discount }}">
+                    <true>
+                        <small>-{{ @expense->discount }}</small>
+                    </true>
+                </check>
+            </td>
+            <td class="amount-cell">{{ @expense->amount }} {{ @expense->unit->name }}</td>
+            <td class="cost-cell">{{ @expense->cost }}</td>
+            <td class="tags-cell">{{ @expense->tags }}</td>
+        </tr>
+
+    </repeat>
+
+    </tbody>
+</table>
+    </true>
+    <false>
+        <strong>Ничего не найдено по вашему запросу.</strong>
+    </false>
+</check>
