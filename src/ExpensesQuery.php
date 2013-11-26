@@ -294,7 +294,8 @@ class ExpensesQuery
 
 	private function makeSort()
 	{
-		if ($this->sort)
-			return $this->sort;
+		return ($this->sort)
+			? $this->sort
+			: ['date DESC'];
 	}
 }
