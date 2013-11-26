@@ -23,7 +23,7 @@
             <td class="name-cell">{{ @expense->name }}</td>
             <td class="price-cell">
                 {{ @expense->price }}
-                <check if="{{ @expense->discount }}">
+                <check if="{{ @expense->discount->raw }}">
                     <true>
                         <small>-{{ @expense->discount }}</small>
                     </true>
