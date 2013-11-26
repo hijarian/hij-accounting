@@ -68,7 +68,7 @@ class SpendingFactory
 	private function makeDate($input)
 	{
 		return ($input)
-			? new DateTime(strtotime($input))
+			? new DateTime($input)
 			: new EmptyValue;
 	}
 

@@ -144,7 +144,7 @@ openFilter();
 // Datepicker BEGIN
 $('.datepicker').pikaday({
     firstDay: 1,
-    format: 'YYYY.MM.DD',
+    format: 'YYYY-MM-DD',
     i18n: {
         previousMonth : 'Месяцем ранее',
         nextMonth     : 'Месяцем позже',
