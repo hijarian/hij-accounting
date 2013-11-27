@@ -22,4 +22,6 @@ $f3->route('POST /add', 'SpendingController->addNew');
 
 $f3->route('POST /correct', 'SpendingController->correctField');
 
+$f3->route('GET /report', 'ReportController->histogram');
+
 $f3->run();
