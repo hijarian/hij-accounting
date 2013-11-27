@@ -7,6 +7,9 @@ use DateTime;
 
 class Expense
 {
+	/** @var string ID of the expense in database */
+	public $rowid;
+
 	/** @var DateTime */
 	public $date;
 
