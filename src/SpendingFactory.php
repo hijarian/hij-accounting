@@ -94,6 +94,7 @@ class SpendingFactory
 		if (!$input)
 			throw new SpendingMakingException('Запись о трате должна содержать хотя бы сумму потраченного!');
 
+		$input = $this->cleanFloatValue($input);
 		return new Price($input);
 	}
 
@@ -118,7 +119,7 @@ class SpendingFactory
 	private function makeAmount($input)
 	{
 		return ($input)
-			? floatval($input)
+			? floatval($this->cleanFloatValue($input))
 			: 1.00;
 	}
 
@@ -160,6 +161,15 @@ class SpendingFactory
 	private function makeDiscount($param)
 	{
 		return new Price($param);
+	}
+
+	private function cleanFloatValue($input)
+	{
+		return preg_replace(
+			'/ /',  '',
+			preg_replace(
+				'/,/', '.',
+				$input));
 	}
 }
 
