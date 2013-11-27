@@ -18,20 +18,27 @@
     <repeat group="{{ @expenses }}" value="{{ @expense }}">
 
         <tr>
-            <td class="date-cell">{{ @expense->date->format('Y-m-d') }}</td>
+            <td class="date-cell">
+                <a href="#correct/{{ @expense->rowid }}/date" class="editable" data-title="Новая дата" data-pk="{{ @expense->rowid }}" data-name="date" data-type="combodate">{{ @expense->date->format('Y-m-d') }}</a>
+            </td>
             <td class="place-cell">{{ @expense->place->name }}</td>
             <td class="name-cell">{{ @expense->name }}</td>
             <td class="price-cell">
-                {{ @expense->price }}
+                <a href="#correct/{{ @expense->rowid }}/price" class="editable" data-title="Новая цена" data-pk="{{ @expense->rowid }}" data-name="price">{{ @expense->price }}</a>
                 <check if="{{ @expense->discount->raw }}">
                     <true>
                         <small>-{{ @expense->discount }}</small>
                     </true>
                 </check>
             </td>
-            <td class="amount-cell">{{ @expense->amount }} {{ @expense->unit->name }}</td>
+            <td class="amount-cell">
+                <a href="#correct/{{ @expense->rowid }}/amount" class="editable" data-title="Новое количество" data-pk="{{ @expense->rowid }}" data-name="amount">{{ @expense->amount }}</a>
+                {{ @expense->unit->name }}
+            </td>
             <td class="cost-cell">{{ @expense->cost }}</td>
-            <td class="tags-cell">{{ @expense->tags }}</td>
+            <td class="tags-cell">
+                <a href="#correct/{{ @expense->rowid }}/tags" class="editable" data-title="Новые теги" data-pk="{{ @expense->rowid}}" data-name="tags">{{ @expense->tags }}</a>
+            </td>
         </tr>
 
     </repeat>

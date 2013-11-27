@@ -7,29 +7,23 @@
     <meta name="viewport" content="width=device-width">
     <title>{{ @title }}</title>
 
-    <link rel="stylesheet" href="/assets/css/normalize.css">
-    <link rel="stylesheet" href="/assets/css/foundation.min.css">
+    <repeat group="{{ @cssfiles }}" value="{{ @csspath }}">
+        <link rel="stylesheet" href="{{ @csspath }}">
+    </repeat>
 
-    <link rel="stylesheet" href="/assets/css/pikaday.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <repeat group="{{ @jsheadfiles }}" value="{{ @jspath }}">
+        <script src="{{ @jspath }}"></script>
+    </repeat>
 
-    <script src="/assets/js/vendor/custom.modernizr.js"></script>
 </head>
 
 <body>
 
 <include href="{{ @content }}" />
 
-<script src="/assets/js/vendor/jquery.js"></script>
-<script src="/assets/js/foundation/foundation.js"></script>
-<script src="/assets/js/foundation/foundation.tab.js"></script>
-<script src="/assets/js/vendor/accounting.min.js"></script>
-<script src="/assets/js/vendor/underscore.min.js"></script>
-<script src="/assets/js/vendor/moment-with-langs.min.js"></script>
-<script src="/assets/js/vendor/pikaday.js"></script>
-<script src="/assets/js/vendor/pikaday.jquery.js"></script>
-
-<script src="/assets/js/main.js"></script>
+    <repeat group="{{ @jsbodyfiles }}" value="{{ @jspath }}">
+        <script src="{{ @jspath }}"></script>
+    </repeat>
 </body>
 
 </html>

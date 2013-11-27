@@ -20,4 +20,6 @@ $f3->route('GET /spending', 'SpendingController->showUi');
 
 $f3->route('POST /add', 'SpendingController->addNew');
 
+$f3->route('POST /correct', 'SpendingController->correctField');
+
 $f3->run();

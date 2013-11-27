@@ -67,9 +67,6 @@ class SpendingController
 		$expenses_storage = new ExpensesStorage($db);
 		list($count, $expenses) = $expenses_storage->query($urlParams);
 
-//		var_dump($count);
-//		var_dump($expenses);
-
 		$f3->set('expenses', $expenses);
 		$f3->set('pageLength', min(count($expenses), ExpensesQuery::PAGE_LENGTH));
 		$f3->set('itemsCount', $count);
@@ -78,11 +75,15 @@ class SpendingController
 
 		$f3->set('pagination', $pagination);
 
-		$this->render();
+		$this->installAssets($f3);
+
+		$this->render($f3);
 	}
 
-	private function render()
+	/** @param Base $f3 */
+	private function render($f3)
 	{
+		$this->installGlobalAssets($f3);
 		echo Template::instance()->render('src/ui/layout.html');
 	}
 
@@ -221,4 +222,92 @@ class SpendingController
 
 		return $pagination->getScheme();
 	}
+
+	/** @param Base $f3 */
+	private function installAssets($f3)
+	{
+		$f3->set(
+		   'cssfiles',
+			[
+				"/assets/css/pikaday.css",
+				"/assets/css/jquery-editable.css",
+				"/assets/css/tip-yellowsimple.css"
+			]
+		);
+
+		$f3->set(
+			'jsbodyfiles',
+			[
+				"/assets/js/foundation/foundation.tab.js",
+				"/assets/js/vendor/accounting.min.js",
+				"/assets/js/vendor/moment-with-langs.min.js",
+				"/assets/js/vendor/pikaday.js",
+				"/assets/js/vendor/pikaday.jquery.js",
+				"/assets/js/vendor/jquery.poshytip.min.js",
+				"/assets/js/vendor/jquery-editable-poshytip.min.js",
+
+				"/assets/js/spending.js",
+			]
+		);
+	}
+
+	/** @param Base $f3 */
+	private function installGlobalAssets($f3)
+	{
+		$css = [
+			"/assets/css/normalize.css",
+		    "/assets/css/foundation.min.css",
+			"/assets/css/main.css",
+		];
+		$this->prependArrayParam($f3, 'cssfiles', $css);
+
+		$head_js = [
+			"/assets/js/vendor/custom.modernizr.js",
+		];
+		$this->prependArrayParam($f3, 'jsheadfiles', $head_js);
+
+		$body_js = [
+			"/assets/js/vendor/jquery.js",
+			"/assets/js/vendor/underscore.min.js",
+			"/assets/js/foundation/foundation.js",
+			"/assets/js/main.js",
+		];
+		$this->prependArrayParam($f3, 'jsbodyfiles', $body_js);
+	}
+
+	/**
+	 * @param Base $f3
+	 * @param string $paramname
+	 * @param array $value
+	 */
+	private function prependArrayParam($f3, $paramname, $value)
+	{
+		$original_value = $f3->get($paramname);
+		if (!$original_value)
+			$original_value = [];
+		$f3->set($paramname, array_merge($value, $original_value));
+	}
+
+	/** @param Base $f3 */
+	public function correctField($f3)
+	{
+		$data = $f3->get('POST');
+		if (!$data)
+			$f3->error(400, 'Это конечная точка для X-Editable, где ожидаемые данные?');
+
+		extract($data);
+		/**
+		 * @var string $pk Record ID
+		 * @var string $name Column name
+		 * @var string $value New value
+		 */
+
+		$db = $this->makeDb($f3);
+		$storage = new ExpensesStorage($db);
+
+		$storage->correct($pk, $name, $value);
+
+		echo json_encode(['success' => true]);
+	}
+
 }
