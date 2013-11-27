@@ -4,6 +4,7 @@ use datatypes\Expense;
 use datatypes\MeasureUnit;
 use datatypes\Place;
 use datatypes\Price;
+use datatypes\RealValue;
 use datatypes\Tags;
 
 /** hijarian 23.11.13 0:14 */
@@ -106,12 +107,46 @@ class ExpensesStorage
 	}
 
 	/**
+	 * @param string $pk Record ID
+	 * @param string $name Column name
+	 * @param string $value New value
+	 * @throws StorageOperationException
+	 * @throws InvalidArgumentException
+	 */
+	public function correct($pk, $name, $value)
+	{
+		if (!in_array($name, ['date', 'amount', 'price', 'tags']))
+			throw new InvalidArgumentException("Неверное название поля: {$name}");
+
+		if ($name == 'amount' or $name == 'price')
+			$value = (string)(new RealValue($value));
+
+		if ($name == 'price')
+			$value = (new Price($value))->raw;
+
+		if ($name == 'tags')
+			$value = (string)(new Tags($value));
+
+		if ($name == 'date')
+			$value = (new DateTime($value))->format('Y-m-d');
+
+		$updater = $this->db->prepare(sprintf('update spending set %s = :value where id=:id', $name));
+		if (!$updater)
+			throw new StorageOperationException('Не удалось подготовить запрос на обновление записи', $this->db->errorInfo());
+
+		$updated = $updater->execute([':id' => $pk, ':value' => $value]);
+		if (!$updated)
+			throw new StorageOperationException('Не удалось обновить запись', $updater->errorInfo());
+	}
+
+	/**
 	 * @param $data
 	 * @return Expense
 	 */
 	private function makeExpense($data)
 	{
 		$expense = new Expense;
+		$expense->rowid = $data['id'];
 		$expense->date = empty($data['date']) ? new EmptyValue : new DateTime($data['date']);
 		$expense->name = $data['name'];
 
