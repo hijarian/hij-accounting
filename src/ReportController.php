@@ -29,6 +29,7 @@ class ReportController extends BaseController
 		   [
 			   "/assets/js/vendor/highcharts.js",
 			   "/assets/js/vendor/highcharts.themes.grid.js",
+			   "/assets/js/histogram.js",
 		   ]
 		);
 	}
@@ -36,10 +37,16 @@ class ReportController extends BaseController
 	private function getHistogramData()
 	{
 		return [
-			[1, 2, 3],
+			['2013-10', '2013-11'],
 			[
-				[1, 2, 3],
-				[4, 5, 6]
+				[
+					'name' => 'Еда',
+					'data' => [4500, 3750]
+				],
+				[
+					'name' => 'Оборудование',
+					'data' => [2300, 14000]
+				]
 			]
 		];
 	}

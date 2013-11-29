@@ -3,6 +3,6 @@
  * It will initialize two global javascript variables: `app.categories` and `app.series`, which will be used by highcharts code.
  */
 window.app = {
-    categories: {{ @categories }},
-    series: {{ @series }}
+    categories: {{ @categories | raw}},
+    series: {{ @series | raw }}
 };
