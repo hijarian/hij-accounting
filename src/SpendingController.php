@@ -29,25 +29,7 @@ class SpendingController extends BaseController
 		$f3->reroute('/spending');
 	}
 
-	/**
-	 * @param Base $f3
-	 * @return PDO
-	 */
-	private function makeDb($f3)
-	{
-		$path = $f3->get('db_path');
-		$dsn = $this->makeDSN($path);
-		return new PDO($dsn);
-	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function makeDSN($path)
-	{
-		return sprintf('sqlite:%s', $path);
-	}
 
 	/**
 	 * @param Base $f3

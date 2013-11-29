@@ -46,4 +46,25 @@ class BaseController
 			$original_value = [];
 		$f3->set($paramname, array_merge($value, $original_value));
 	}
+
+		/**
+	 * @param Base $f3
+	 * @return PDO
+	 */
+	protected function makeDb($f3)
+	{
+		$path = $f3->get('db_path');
+		$dsn = $this->makeDSN($path);
+		return new PDO($dsn);
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function makeDSN($path)
+	{
+		return sprintf('sqlite:%s', $path);
+	}
+
 }
