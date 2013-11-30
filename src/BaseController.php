@@ -7,6 +7,8 @@ class BaseController
 	protected function render($f3)
 	{
 		$this->installGlobalAssets($f3);
+
+		$this->initMenu($f3);
 		echo Template::instance()->render('src/ui/layout.html');
 	}
 
@@ -69,6 +71,15 @@ class BaseController
 	private function makeDSN($path)
 	{
 		return sprintf('sqlite:%s', $path);
+	}
+
+	/** @param Base $f3 */
+	private function initMenu($f3)
+	{
+		$f3->set('menu', [
+			'spending' => ['label' => 'Расходы'],
+			'report' => ['label' => 'Отчёты', 'items' => ['report' => ['label' => 'Гистограмма расходов']]]
+		]);
 	}
 
 }
