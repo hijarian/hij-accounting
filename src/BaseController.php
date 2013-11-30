@@ -29,6 +29,10 @@ class BaseController
 			"/assets/js/vendor/jquery.js",
 			"/assets/js/vendor/underscore.min.js",
 			"/assets/js/foundation/foundation.js",
+
+			"/assets/js/vendor/moment-with-langs.min.js",
+			"/assets/js/vendor/accounting.min.js",
+
 			"/assets/js/main.js",
 		];
 		$this->prependArrayParam($f3, 'jsbodyfiles', $body_js);

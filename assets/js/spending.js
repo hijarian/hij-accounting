@@ -58,9 +58,7 @@ $('#add-check-form table').on('blur', 'input,select', reloadInputRows);
 //------------------------------------------------------------------------------
 // Обновление стоимости BEGIN
 
-accounting.settings.currency.format = "%v %s";
-accounting.settings.currency.symbol = "руб.";
-accounting.settings.currency.thousand = " ";
+
 
 function refreshCost(event)
 {

@@ -7,6 +7,12 @@ $(function () {
         chart: {
             type: 'bar'
         },
+        tooltip: {
+            formatter: function() {
+                return moment(this.x).format('MMMM') + ', ' + this.series.name + ': потратили ' + accounting.formatMoney(this.y);
+            }
+        },
+
         title: {
             text: 'Траты по типам'
         },

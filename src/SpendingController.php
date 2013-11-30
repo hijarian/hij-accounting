@@ -213,8 +213,6 @@ class SpendingController extends BaseController
 			'jsbodyfiles',
 			[
 				"/assets/js/foundation/foundation.tab.js",
-				"/assets/js/vendor/accounting.min.js",
-				"/assets/js/vendor/moment-with-langs.min.js",
 				"/assets/js/vendor/pikaday.js",
 				"/assets/js/vendor/pikaday.jquery.js",
 				"/assets/js/vendor/jquery.poshytip.min.js",
