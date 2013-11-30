@@ -4,7 +4,7 @@
             <li class="name"><h1><a href="/">∑</a></h1></li>
         </ul>
         <section class="top-bar-section">
-            <ul class="left show-for-large-up">
+            <ul class="right show-for-large-up">
                 <repeat group="{{ @menu }}" key="{{ @url }}" value="{{ @spec }}">
                     <li class="{{ array_key_exists('items', @spec) ? 'has-dropdown not-click' : '' }}">
                         <a href="/{{ @url }}">{{ @spec['label'] }}</a>
