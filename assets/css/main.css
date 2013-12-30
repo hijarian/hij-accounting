@@ -1,3 +1,18 @@
+body .tabs-content > .content {
+    float: none;
+}
+
 .spendings-list-table {
     width: 100%;
+}
+
+#add-check-form table {
+    width: 100%;
+}
+
+#add-check-form .amount-input,
+#add-check-form .price-input,
+#add-check-form .discount-input,
+#add-check-form .cost {
+    width: 10ex;
 }
