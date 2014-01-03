@@ -49,8 +49,6 @@ class Expense
 		if (property_exists($this, $attr))
 			return $this->$attr;
 
-		if ($attr === 'cost')
-
 		throw new \InvalidArgumentException;
 	}
 } 
