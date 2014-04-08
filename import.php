@@ -4,9 +4,12 @@ main();
 
 function main()
 {
-    $file = open_file();
+    $filename = 'Import3.csv';
+    $dbname = './src/spending.db';
 
-    $db = open_db();
+    $file = open_file($filename);
+
+    $db = open_db($dbname);
 
     while ($record = read_record($file))
         persist(process_record($record), $db);
@@ -17,9 +20,9 @@ function main()
 /**
  * @return PDO
  */
-function open_db()
+function open_db($dbname)
 {
-    return new PDO('sqlite:./src/spending.db');
+    return new PDO("sqlite:{$dbname}");
 }
 
 /**
@@ -30,9 +33,9 @@ function persist($data, $db)
 {
     $values = [
         ':date' => $data['date'],
-        ':place' => '',
+        ':place' => $data['place'],
         ':name' => $data['name'],
-        ':amount' => '1',
+        ':amount' => $data['amount'],
         ':unit' => '1',
         ':price' => $data['price'],
         ':discount' => 0,
@@ -61,11 +64,17 @@ function process_record($record)
     $type = array_shift($record);
     $date = array_shift($record);
     $price = array_shift($record);
+    $place = array_shift($record);
+    $amount = array_shift($record);
 
     $type = mb_convert_case($type, MB_CASE_LOWER, "UTF-8");
-    $price = intval(floatval($price) * 100); // truncate for real
+    $price = intval(floatval(str_replace(',', '.', $price)) * 100); // truncate for real
+    $amount = intval($amount) > 0 ? $amount : 1;
 
-    return compact('name', 'type', 'date', 'price');
+	// DEBUG SHIT
+	printf("%s\t%s\t%s\t%s\t%s\t%s\n", $name, $type, $date, $price, $place, $amount);
+ 
+    return compact('name', 'type', 'date', 'price', 'place', 'amount');
 }
 
 /**
@@ -83,13 +92,13 @@ function is_invalid($record)
  */
 function read_record($file)
 {
-    return fgetcsv($file, 256, "\t");
+    return fgetcsv($file, 1024, "\t");
 }
 
 /**
  * @return resource
  */
-function open_file()
+function open_file($filename)
 {
-    return fopen('Import.csv', 'r');
+    return fopen($filename, 'r');
 }
