@@ -66,7 +66,6 @@ class ReportController extends BaseController
 		$fetcher = $db->prepare($sql);
 		if (!$fetcher) {
 			var_dump($db->errorInfo()); die();
-//			throw new Exception('Не удалось подготовить запрос на выборку!');
 		}
 
 		$temp = [];
@@ -80,7 +79,6 @@ class ReportController extends BaseController
 			if (!$executed)
 			{
 				var_dump($fetcher->errorInfo()); die();
-//				throw new Exception("Не удалось выполнить запрос при теге {$tag}");
 			}
 
 			while($resultForTag = $fetcher->fetch(PDO::FETCH_ASSOC))
@@ -111,39 +109,6 @@ class ReportController extends BaseController
 
 		$series = array_values($series);
 
-//		var_dump($categories);
-//		var_dump($series);
-//		var_dump($temp);
-
 		return [$categories, $series];
-	}
-
-	/**
-	 * @return array
-	 */
-	private function getFakeHistogramData()
-	{
-		return [
-			[
-				'2013-10',
-				'2013-11'
-			],
-			[
-				[
-					'name' => 'Еда',
-					'data' => [
-						4500,
-						3750
-					]
-				],
-				[
-					'name' => 'Оборудование',
-					'data' => [
-						2300,
-						14000
-					]
-				]
-			]
-		];
 	}
 }
