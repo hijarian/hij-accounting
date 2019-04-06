@@ -22,6 +22,8 @@ $f3->route('POST /correct', 'SpendingController->correctField');
 
 $f3->route('GET /report', 'ReportController->histogram');
 
+$f3->route('GET /ping', function () { return '';} );
+
 $f3->set('ONERROR', function ($f3) {
 	var_dump($f3->get('ERROR'));
 });

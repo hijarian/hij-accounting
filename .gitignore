@@ -6,3 +6,5 @@
 
 # Create SQLite3 db yourself
 /src/spending.db
+
+*.db
